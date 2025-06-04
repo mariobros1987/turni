@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Ore Lavorate - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -30,9 +30,9 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Calendario</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Report</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Home</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Calendario</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/orelavorate.html">Report Ore</a>
               <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Impostazioni</a>
             </div>
             <div
@@ -44,69 +44,52 @@
         <div class="px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#101418] tracking-light text-[32px] font-bold leading-tight min-w-72">Ore Lavorate</p></div>
+
+            <!-- DATE FILTER HTML INSERTED HERE -->
+            <div class="px-4 py-3 flex flex-wrap items-center gap-4">
+                <div>
+                    <label for="filterStartDate" class="block text-sm font-medium text-gray-700">Dal:</label>
+                    <input type="date" id="filterStartDate" name="filterStartDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                </div>
+                <div>
+                    <label for="filterEndDate" class="block text-sm font-medium text-gray-700">Al:</label>
+                    <input type="date" id="filterEndDate" name="filterEndDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                </div>
+                <button id="applyDateFilter" class="self-end mt-3 sm:mt-0 h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold rounded-xl hover:bg-[#a1b9d1]">Filtra</button>
+            </div>
+
             <div class="flex flex-wrap gap-4 p-4">
               <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-[#eaedf1]">
                 <p class="text-[#101418] text-base font-medium leading-normal">Ore Totali</p>
-                <p class="text-[#101418] tracking-light text-2xl font-bold leading-tight">152</p>
+                <p class="text-[#101418] tracking-light text-2xl font-bold leading-tight">152</p> <!-- This will be updated by JS -->
               </div>
             </div>
             <h2 class="text-[#101418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Dettagli del Mese</h2>
             <div class="px-4 py-3 @container">
               <div class="flex overflow-hidden rounded-xl border border-[#d4dbe2] bg-gray-50">
-                <table class="flex-1">
+                <table class="flex-1 table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad"> <!-- Added class for JS selector stability -->
                   <thead>
                     <tr class="bg-gray-50">
-                      <th class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Data</th>
-                      <th class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Entrata</th>
-                      <th class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Uscita</th>
-                      <th class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Ore</th>
+                      <th class="px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Data</th>
+                      <th class="px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Entrata</th>
+                      <th class="px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Uscita</th>
+                      <th class="px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Ore</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <!-- Static rows will be replaced by JS -->
                     <tr class="border-t border-t-[#d4dbe2]">
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
                         2024-07-01
                       </td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">17:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">8</td>
-                    </tr>
-                    <tr class="border-t border-t-[#d4dbe2]">
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
-                        2024-07-02
-                      </td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:30</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">17:30</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">8</td>
-                    </tr>
-                    <tr class="border-t border-t-[#d4dbe2]">
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
-                        2024-07-03
-                      </td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">18:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">9</td>
-                    </tr>
-                    <tr class="border-t border-t-[#d4dbe2]">
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
-                        2024-07-04
-                      </td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">17:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">8</td>
-                    </tr>
-                    <tr class="border-t border-t-[#d4dbe2]">
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">
-                        2024-07-05
-                      </td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">17:00</td>
-                      <td class="table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-480 h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">8</td>
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">09:00</td>
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">17:00</td>
+                      <td class="h-[72px] px-4 py-2 w-[400px] text-[#5c728a] text-sm font-normal leading-normal">8</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <style>
+              <style> /* Keep existing style or remove if not needed */
                           @container(max-width:120px){.table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-120{display: none;}}
                 @container(max-width:240px){.table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-240{display: none;}}
                 @container(max-width:360px){.table-aa88aefe-bce1-41a4-84c0-d792ca73e9ad-column-360{display: none;}}
@@ -117,5 +100,117 @@
         </div>
       </div>
     </div>
-  </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const userId = localStorage.getItem('userId');
+    const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+    if (!userId || !userData) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    // --- Page Elements ---
+    const totalHoursDisplay = document.querySelector('.flex.min-w-\\[158px\\].flex-1.flex-col.gap-2.rounded-xl.p-6.bg-\\[#eaedf1\\] p.tracking-light.text-2xl');
+    const timeEntriesTableBody = document.querySelector('table[class*="table-aa88aefe"] tbody');
+    const filterStartDateInput = document.getElementById('filterStartDate');
+    const filterEndDateInput = document.getElementById('filterEndDate');
+    const applyDateFilterButton = document.getElementById('applyDateFilter');
+
+    // Default date range: current month
+    function setDefaultDates() {
+        const today = new Date();
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        if(filterStartDateInput) filterStartDateInput.valueAsDate = firstDayOfMonth;
+        if(filterEndDateInput) filterEndDateInput.valueAsDate = lastDayOfMonth;
+    }
+
+    function showUIMessageOreLavorate(message, type = 'error') {
+        // Simple alert for now, or integrate a message display area
+        alert(message);
+        console.log(`OreLavorate Message (${type}): ${message}`);
+    }
+
+    async function fetchAndDisplayTimeEntries() {
+        if (!timeEntriesTableBody || !totalHoursDisplay) {
+            console.error("Required elements for displaying time entries are missing.");
+            return;
+        }
+
+        const startDate = filterStartDateInput.value;
+        const endDate = filterEndDateInput.value;
+
+        if (!startDate || !endDate) {
+            showUIMessageOreLavorate("Seleziona un intervallo di date valido.", "error");
+            return;
+        }
+        if (new Date(startDate) > new Date(endDate)) {
+            showUIMessageOreLavorate("La data di inizio non può essere successiva alla data di fine.", "error");
+            return;
+        }
+
+        timeEntriesTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Caricamento...</td></tr>';
+        totalHoursDisplay.textContent = '...';
+
+        try {
+            const response = await fetch(`/time_entries?user_id=${userId}&start_date=${startDate}&end_date=${endDate}`);
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.message || `HTTP error ${response.status}`);
+            }
+            const entries = await response.json();
+
+            if (entries.length === 0) {
+                timeEntriesTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">Nessuna timbratura trovata per questo periodo.</td></tr>';
+                totalHoursDisplay.textContent = '0.00';
+                return;
+            }
+
+            let currentTotalHours = 0;
+            timeEntriesTableBody.innerHTML = ''; // Clear loading/previous entries
+
+            entries.sort((a,b) => new Date(a.date) - new Date(b.date)); // Sort by date ascending
+
+            entries.forEach(entry => {
+                const entryDate = new Date(entry.date).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                const clockInTime = entry.clock_in_time ? new Date(entry.clock_in_time).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+                const clockOutTime = entry.clock_out_time ? new Date(entry.clock_out_time).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+                const hoursWorked = entry.duration_hours !== null && entry.duration_hours !== undefined ? entry.duration_hours.toFixed(2) : 'N/A';
+
+                if (entry.duration_hours) {
+                    currentTotalHours += parseFloat(entry.duration_hours);
+                }
+
+                const row = document.createElement('tr');
+                row.className = 'border-t border-t-[#d4dbe2]';
+                row.innerHTML = \`
+                    <td class="h-[72px] px-4 py-2 text-[#5c728a] text-sm font-normal leading-normal">${entryDate}</td>
+                    <td class="h-[72px] px-4 py-2 text-[#5c728a] text-sm font-normal leading-normal">${clockInTime}</td>
+                    <td class="h-[72px] px-4 py-2 text-[#5c728a] text-sm font-normal leading-normal">${clockOutTime}</td>
+                    <td class="h-[72px] px-4 py-2 text-[#5c728a] text-sm font-normal leading-normal">${hoursWorked}</td>
+                \`;
+                timeEntriesTableBody.appendChild(row);
+            });
+
+            totalHoursDisplay.textContent = currentTotalHours.toFixed(2);
+
+        } catch (error) {
+            console.error('Error fetching time entries:', error);
+            timeEntriesTableBody.innerHTML = \`<tr><td colspan="4" class="text-center py-4 text-red-500">Errore nel caricare le timbrature: ${error.message}</td></tr>\`;
+            totalHoursDisplay.textContent = 'Errore';
+        }
+    }
+
+    if (applyDateFilterButton) {
+        applyDateFilterButton.addEventListener('click', fetchAndDisplayTimeEntries);
+    }
+
+    // Initial load
+    setDefaultDates();
+    fetchAndDisplayTimeEntries();
+});
+</script>
+</body>
 </html>

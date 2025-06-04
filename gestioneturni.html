@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Gestione Turni - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -32,14 +32,14 @@
                 ></path>
               </svg>
             </div>
-            <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">GestioneTurni</h2>
+            <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">WorkTime</h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Programmazione</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Home</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Programmazione</a>
               <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Disponibilità</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Ferie</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneferie.html">Ferie</a>
               <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Impostazioni</a>
             </div>
             <button
@@ -300,7 +300,7 @@
                       <th class="table-7bb52c7d-6d98-4627-831f-31ab8fff10a3-column-120 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Data</th>
                       <th class="table-7bb52c7d-6d98-4627-831f-31ab8fff10a3-column-240 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Turno</th>
                       <th class="table-7bb52c7d-6d98-4627-831f-31ab8fff10a3-column-360 px-4 py-3 text-left text-[#101418] w-[400px] text-sm font-medium leading-normal">Luogo</th>
-                      <th class="table-7bb52c7d-6d98-4627-831f-31ab8fff10a3-column-480 px-4 py-3 text-left text-[#101418] w-60 text-sm font-medium leading-normal">Stato</th>
+                      <th class="table-7bb52c7d-6d98-4627-831f-31ab8fff10a3-column-480 px-4 py-3 text-left text-[#101418] w-60 text-sm font-medium leading.normal">Stato</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -410,5 +410,266 @@
         </footer>
       </div>
     </div>
-  </body>
+
+
+<!-- Add Shift Modal -->
+<div id="addShiftModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-600 bg-opacity-50 transition-opacity duration-300 ease-in-out" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+                <div class="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 class="text-lg font-semibold leading-6 text-gray-900" id="modal-title">Aggiungi Nuovo Turno</h3>
+                    <div class="mt-2">
+                        <form id="addShiftForm">
+                            <div class="mb-4">
+                                <label for="shiftDate" class="block text-sm font-medium text-gray-700">Data</label>
+                                <input type="date" name="shiftDate" id="shiftDate" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="shiftStartTime" class="block text-sm font-medium text-gray-700">Ora Inizio</label>
+                                <input type="time" name="shiftStartTime" id="shiftStartTime" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="shiftEndTime" class="block text-sm font-medium text-gray-700">Ora Fine</label>
+                                <input type="time" name="shiftEndTime" id="shiftEndTime" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="shiftLocation" class="block text-sm font-medium text-gray-700">Luogo (opzionale)</label>
+                                <input type="text" name="shiftLocation" id="shiftLocation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <p id="addShiftModalMessage" class="mt-2 text-sm text-center"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <button type="button" id="submitShiftButton" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Aggiungi Turno</button>
+            <button type="button" id="cancelModalButton" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Annulla</button>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const userId = localStorage.getItem('userId');
+    const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+    if (!userId || !userData) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    // --- Common Page Elements ---
+    const shiftsTableBody = document.querySelector('table tbody');
+    const addShiftButtonTrigger = Array.from(document.querySelectorAll('button .truncate')).find(el => el.textContent.trim() === 'Aggiungi Turno')?.closest('button');
+    const pageMonthYearDisplayForTable = document.querySelector('h2.text-\\[#101418\\].text-\\[22px\\]'); // e.g., "Ottobre 2024" for the main table
+
+    // --- State for currently displayed month/year in the main table ---
+    let tableDisplayYear = new Date().getFullYear();
+    let tableDisplayMonth = new Date().getMonth() + 1;
+
+
+    // --- Add Shift Modal Elements & Logic (from previous step) ---
+    const addShiftModal = document.getElementById('addShiftModal');
+    const addShiftForm = document.getElementById('addShiftForm');
+    const cancelModalButton = document.getElementById('cancelModalButton');
+    const submitShiftButton = document.getElementById('submitShiftButton');
+    const modalMessageEl = document.getElementById('addShiftModalMessage');
+    const shiftDateInput = document.getElementById('shiftDate');
+    const shiftStartTimeInput = document.getElementById('shiftStartTime');
+    const shiftEndTimeInput = document.getElementById('shiftEndTime');
+    const shiftLocationInput = document.getElementById('shiftLocation');
+
+    function showUIMessageGT(message, type = 'info') {
+        if (addShiftModal && addShiftModal.classList.contains('flex') && modalMessageEl) {
+             modalMessageEl.textContent = message;
+             modalMessageEl.className = `text-sm ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+        } else {
+            alert(message);
+        }
+        console.log(`GestioneTurni UI Message (${type}): ${message}`);
+    }
+
+    function toggleModal(show) {
+        if (!addShiftModal || !addShiftForm) return;
+        if (show) {
+            addShiftModal.classList.remove('hidden'); addShiftModal.classList.add('flex');
+        } else {
+            addShiftModal.classList.add('hidden'); addShiftModal.classList.remove('flex');
+            addShiftForm.reset();
+            if(modalMessageEl) modalMessageEl.textContent = '';
+        }
+    }
+
+    if (addShiftButtonTrigger) {
+        addShiftButtonTrigger.addEventListener('click', () => {
+            if (shiftDateInput) shiftDateInput.valueAsDate = new Date();
+            toggleModal(true);
+        });
+    }
+    if (cancelModalButton) cancelModalButton.addEventListener('click', () => toggleModal(false));
+    if (submitShiftButton) {
+        submitShiftButton.addEventListener('click', async () => {
+            if (!shiftDateInput || !shiftStartTimeInput || !shiftEndTimeInput || !modalMessageEl) return;
+            const date = shiftDateInput.value; const startTime = shiftStartTimeInput.value;
+            const endTime = shiftEndTimeInput.value; const location = shiftLocationInput.value;
+            modalMessageEl.textContent = '';
+            if (!date || !startTime || !endTime) { showUIMessageGT('Data, Ora Inizio e Ora Fine sono obbligatori.', 'error'); return; }
+            if (startTime >= endTime) { showUIMessageGT('L\'ora di inizio deve essere precedente all\'ora di fine.', 'error'); return; }
+            const shiftData = { user_id: parseInt(userId), date, start_time: startTime, end_time: endTime, location };
+            try {
+                const response = await fetch('/shifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(shiftData) });
+                const responseData = await response.json();
+                if (response.ok) {
+                    showUIMessageGT('Turno aggiunto con successo!', 'success'); toggleModal(false);
+                    const addedShiftDate = new Date(date);
+                    // Refresh both calendar (if active month matches) and table
+                    if (calendar1 && calendar1.year === addedShiftDate.getFullYear() && calendar1.month === addedShiftDate.getMonth() + 1) {
+                        renderCalendar(calendar1);
+                    }
+                    fetchAndDisplayShiftsInTable(addedShiftDate.getFullYear(), addedShiftDate.getMonth() + 1);
+                } else { showUIMessageGT(responseData.message || 'Errore nell\'aggiungere il turno.', 'error'); }
+            } catch (error) { console.error('Error submitting new shift:', error); showUIMessageGT('Errore di connessione o API.', 'error'); }
+        });
+    }
+
+    // --- Main Shift Table Logic ---
+    async function fetchAndDisplayShiftsInTable(year, month) {
+        if (!shiftsTableBody) { console.error("Shifts table body not found"); return; }
+        shiftsTableBody.innerHTML = '';
+        tableDisplayYear = year; tableDisplayMonth = month; // Update table's current view state
+        if(pageMonthYearDisplayForTable) {
+             pageMonthYearDisplayForTable.textContent = `${new Date(year, month - 1).toLocaleString('it-IT', { month: 'long' })} ${year}`;
+        }
+
+        try {
+            const response = await fetch(`/shifts?user_id=${userId}&year=${year}&month=${month}`);
+            if (!response.ok) { const err = await response.json(); throw new Error(err.message || `HTTP error ${response.status}`); }
+            const shifts = await response.json();
+            if (shifts.length === 0) { shiftsTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">Nessun turno programmato per questo mese.</td></tr>'; return; }
+            shifts.forEach(shift => {
+                const startTime = new Date(`1970-01-01T${shift.start_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const endTime = new Date(`1970-01-01T${shift.end_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const shiftDate = new Date(shift.date);
+                const formattedDate = `${shiftDate.getDate()} ${shiftDate.toLocaleString('it-IT', { month: 'short' }).replace('.', '')}`;
+                const row = `<tr class="border-t border-t-[#d4dbe2]"><td class="h-[72px] px-4 py-2 text-[#101418]">${formattedDate}</td><td class="h-[72px] px-4 py-2 text-[#5c728a]">${startTime} - ${endTime}</td><td class="h-[72px] px-4 py-2 text-[#5c728a]">${shift.location||'N/A'}</td><td class="h-[72px] px-4 py-2"><button class="flex w-full items-center justify-center rounded-xl h-8 px-4 bg-[#eaedf1] text-[#101418] text-sm font-medium"><span class="truncate">${shift.status||'Confermato'}</span></button></td></tr>`;
+                shiftsTableBody.insertAdjacentHTML('beforeend', row);
+            });
+        } catch (error) { console.error('Failed to fetch shifts for table:', error); shiftsTableBody.innerHTML = \`<tr><td colspan="4" class="text-center py-4 text-red-500">Errore: ${error.message}</td></tr>\`; }
+    }
+
+    // --- Calendar Logic ---
+    // Assuming the first calendar is the one we make dynamic.
+    // Structure: div.flex.flex-wrap ... -> div.flex.min-w-72.max-w-\[336px\] (Calendar Container)
+    // Inside Calendar Container: div.flex.items-center.p-1.justify-between (Header with nav)
+    //                          div.grid.grid-cols-7 (Days Grid)
+    const calendarContainers = document.querySelectorAll('.flex.min-w-72.max-w-\\[336px\\].flex-1.flex-col.gap-0\\.5');
+
+    let calendar1 = null;
+    if (calendarContainers.length > 0) {
+        const firstCalContainer = calendarContainers[0];
+        calendar1 = {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1, // JS month is 0-indexed
+            monthDisplayEl: firstCalContainer.querySelector('.text-base.font-bold.leading-tight.flex-1.text-center'),
+            prevButton: firstCalContainer.querySelector('button:first-child svg[data-icon="CaretLeft"]')?.closest('button'),
+            nextButton: firstCalContainer.querySelector('button:last-child svg[data-icon="CaretRight"]')?.closest('button'),
+            daysGridEl: firstCalContainer.querySelector('.grid.grid-cols-7:last-of-type'), // last grid is for days
+            shifts: [] // To store shifts for the current month
+        };
+    }
+
+    async function renderCalendar(calendar) {
+        if (!calendar || !calendar.daysGridEl || !calendar.monthDisplayEl) { console.error("Calendar elements missing for render:", calendar); return; }
+
+        calendar.monthDisplayEl.textContent = new Date(calendar.year, calendar.month - 1).toLocaleString('it-IT', { month: 'long', year: 'numeric' });
+        calendar.daysGridEl.innerHTML = ''; // Clear previous days
+
+        // Add day headers (S, M, T, W, T, F, S) - these are static in HTML, so just clear numbers
+        const dayHeaders = ["S", "M", "T", "W", "T", "F", "S"]; // Italian: D L M M G V S - but HTML uses S M T W T F S
+        // The static headers are fine, we only need to clear previous number buttons.
+        // So, find all button children and remove them.
+        Array.from(calendar.daysGridEl.querySelectorAll('button')).forEach(btn => btn.remove());
+
+
+        // Fetch shifts for this calendar's month
+        try {
+            const response = await fetch(`/shifts?user_id=${userId}&year=${calendar.year}&month=${calendar.month}`);
+            if (!response.ok) { const err = await response.json(); throw new Error(err.message || `HTTP error ${response.status}`);}
+            calendar.shifts = await response.json();
+        } catch (error) {
+            console.error(`Failed to fetch shifts for calendar (${calendar.year}-${calendar.month}):`, error);
+            calendar.shifts = []; // Reset shifts on error
+        }
+
+        const daysInMonth = new Date(calendar.year, calendar.month, 0).getDate();
+        const firstDayOfMonth = new Date(calendar.year, calendar.month - 1, 1).getDay(); // 0 (Sun) - 6 (Sat)
+
+        // Create placeholders for days before the first day of the month
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            calendar.daysGridEl.insertAdjacentHTML('beforeend', '<div class="h-12 w-full"></div>');
+        }
+
+        // Create day cells
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayDateStr = `${calendar.year}-${String(calendar.month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+            const hasShift = calendar.shifts.some(shift => shift.date === dayDateStr);
+
+            const dayButton = document.createElement('button');
+            dayButton.className = "h-12 w-full text-[#101418] text-sm font-medium leading-normal";
+            dayButton.innerHTML = `<div class="flex size-full items-center justify-center rounded-full ${hasShift ? 'bg-[#b2cbe5]' : ''}">${day}</div>`;
+            dayButton.addEventListener('click', () => {
+                // When a day is clicked, update the main table to show shifts for this selected day's month
+                fetchAndDisplayShiftsInTable(calendar.year, calendar.month);
+                // Highlight selected day or show details (optional future enhancement)
+                console.log(`Day ${day} clicked in calendar for ${calendar.year}-${calendar.month}`);
+            });
+            calendar.daysGridEl.appendChild(dayButton);
+        }
+    }
+
+    if (calendar1) {
+        if (calendar1.prevButton) {
+            calendar1.prevButton.addEventListener('click', () => {
+                calendar1.month--;
+                if (calendar1.month < 1) { calendar1.month = 12; calendar1.year--; }
+                renderCalendar(calendar1);
+            });
+        }
+        if (calendar1.nextButton) {
+            calendar1.nextButton.addEventListener('click', () => {
+                calendar1.month++;
+                if (calendar1.month > 12) { calendar1.month = 1; calendar1.year++; }
+                renderCalendar(calendar1);
+            });
+        }
+        // Initial render for calendar 1
+        // Set its initial display based on the main table's initial month/year
+        // This needs to be after tableDisplayYear/Month are definitively set.
+    }
+
+    // --- Initial Page Load Setup ---
+    // Determine initial month/year for the table based on its h2 display or current date
+    if (pageMonthYearDisplayForTable && pageMonthYearDisplayForTable.textContent) {
+        const parts = pageMonthYearDisplayForTable.textContent.split(" ");
+        if (parts.length === 2) {
+            const monthName = parts[0]; const yearNum = parseInt(parts[1]);
+            const monthMap = {"gennaio":1, "febbraio":2, "marzo":3, "aprile":4, "maggio":5, "giugno":6, "luglio":7, "agosto":8, "settembre":9, "ottobre":10, "novembre":11, "dicembre":12};
+            const monthNum = monthMap[monthName.toLowerCase()];
+            if(monthNum && !isNaN(yearNum)) { tableDisplayYear = yearNum; tableDisplayMonth = monthNum; }
+        }
+    }
+    fetchAndDisplayShiftsInTable(tableDisplayYear, tableDisplayMonth);
+
+    if (calendar1) { // Now that tableDisplayYear/Month are set, init calendar
+        calendar1.year = tableDisplayYear;
+        calendar1.month = tableDisplayMonth;
+        renderCalendar(calendar1);
+    }
+
+});
+</script>
+</body>
 </html>
+
+[end of gestioneturni.html]

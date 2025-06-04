@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Gestione Ferie - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -30,10 +30,10 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Programmazione</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Ferie</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Report</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Home</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Programmazione</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneferie.html">Ferie</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/orelavorate.html">Report Ore</a>
             </div>
             <button
               class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#eaedf1] text-[#101418] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
@@ -76,6 +76,7 @@
               </div>
             </div>
             <div class="flex flex-col px-4 py-6">
+              <!-- Content will be dynamically inserted here by JavaScript -->
               <div class="flex flex-col items-center gap-6">
                 <div
                   class="bg-center bg-no-repeat aspect-video bg-cover rounded-xl w-full max-w-[360px]"
@@ -96,5 +97,277 @@
         </div>
       </div>
     </div>
-  </body>
+
+<!-- New Vacation Request Modal -->
+<div id="newVacationRequestModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-gray-600 bg-opacity-50 transition-opacity duration-300 ease-in-out" aria-labelledby="modal-ferie-title" role="dialog" aria-modal="true">
+    <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+                <div class="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 class="text-lg font-semibold leading-6 text-gray-900" id="modal-ferie-title">Nuova Richiesta Ferie</h3>
+                    <div class="mt-2">
+                        <form id="newVacationRequestForm">
+                            <div class="mb-4">
+                                <label for="vacationStartDate" class="block text-sm font-medium text-gray-700">Data Inizio</label>
+                                <input type="date" name="vacationStartDate" id="vacationStartDate" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="vacationEndDate" class="block text-sm font-medium text-gray-700">Data Fine</label>
+                                <input type="date" name="vacationEndDate" id="vacationEndDate" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                            </div>
+                            <div class="mb-4">
+                                <label for="vacationReason" class="block text-sm font-medium text-gray-700">Motivazione (opzionale)</label>
+                                <textarea name="vacationReason" id="vacationReason" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"></textarea>
+                            </div>
+                            <p id="newVacationModalMessage" class="mt-2 text-sm text-center"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <button type="button" id="submitVacationRequestButton" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Invia Richiesta</button>
+            <button type="button" id="cancelVacationModalButton" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Annulla</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const userId = localStorage.getItem('userId');
+    const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+    if (!userId || !userData) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    // --- Modal Elements ---
+    const newVacationModal = document.getElementById('newVacationRequestModal');
+    const newVacationForm = document.getElementById('newVacationRequestForm');
+    const cancelVacationModalButton = document.getElementById('cancelVacationModalButton');
+    const submitVacationRequestButton = document.getElementById('submitVacationRequestButton');
+    const vacationModalMessageEl = document.getElementById('newVacationModalMessage');
+    const vacationStartDateInput = document.getElementById('vacationStartDate');
+    const vacationEndDateInput = document.getElementById('vacationEndDate');
+    const vacationReasonInput = document.getElementById('vacationReason');
+
+    // --- Page Elements for Displaying Requests ---
+    // The main container that shows either the placeholder or the list of requests
+    const requestsDisplayContainer = document.querySelector('.flex.flex-col.px-4.py-6');
+    const tabsContainer = document.querySelector('.flex.border-b.border-\\[#d4dbe2\\].px-4.gap-8');
+    let activeTab = 'Prossime'; // Default or read from URL/localStorage
+
+    // --- "Nuova Richiesta" Buttons ---
+    // There are two such buttons in the original HTML.
+    const newRequestButtons = document.querySelectorAll('button span.truncate:contains("Nuova Richiesta")');
+
+    function showUIMessageFerie(message, type = 'info', onModal = false) {
+        if (onModal && vacationModalMessageEl) {
+            vacationModalMessageEl.textContent = message;
+            vacationModalMessageEl.className = `text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+        } else {
+            // For general page messages, you might need a dedicated area or use alerts
+            alert(message);
+        }
+        console.log(`GestioneFerie UI Message (${type}): ${message}`);
+    }
+
+    function toggleNewVacationModal(show) {
+        if (!newVacationModal || !newVacationForm) return;
+        if (show) {
+            vacationStartDateInput.valueAsDate = new Date(); // Default start date to today
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            vacationEndDateInput.valueAsDate = tomorrow; // Default end date to tomorrow
+
+            newVacationModal.classList.remove('hidden'); newVacationModal.classList.add('flex');
+        } else {
+            newVacationModal.classList.add('hidden'); newVacationModal.classList.remove('flex');
+            newVacationForm.reset();
+            if (vacationModalMessageEl) vacationModalMessageEl.textContent = '';
+        }
+    }
+
+    newRequestButtons.forEach(button => {
+        button.closest('button').addEventListener('click', () => toggleNewVacationModal(true));
+    });
+
+    if (cancelVacationModalButton) {
+        cancelVacationModalButton.addEventListener('click', () => toggleNewVacationModal(false));
+    }
+
+    if (submitVacationRequestButton) {
+        submitVacationRequestButton.addEventListener('click', async () => {
+            if (!vacationStartDateInput || !vacationEndDateInput || !vacationReasonInput || !vacationModalMessageEl) return;
+
+            const startDate = vacationStartDateInput.value;
+            const endDate = vacationEndDateInput.value;
+            const reason = vacationReasonInput.value;
+
+            vacationModalMessageEl.textContent = '';
+            if (!startDate || !endDate) {
+                showUIMessageFerie('Data Inizio e Data Fine sono obbligatorie.', 'error', true); return;
+            }
+            if (new Date(startDate) > new Date(endDate)) {
+                showUIMessageFerie('La data di inizio non può essere successiva alla data di fine.', 'error', true); return;
+            }
+
+            const requestData = {
+                user_id: parseInt(userId),
+                start_date: startDate,
+                end_date: endDate,
+                reason: reason
+            };
+
+            try {
+                const response = await fetch('/vacation_requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
+                const responseData = await response.json();
+                if (response.ok) {
+                    showUIMessageFerie('Richiesta ferie inviata con successo!', 'success');
+                    toggleNewVacationModal(false);
+                    fetchAndDisplayVacationRequests(activeTab); // Refresh the current tab
+                } else {
+                    showUIMessageFerie(responseData.message || 'Errore nell\'inviare la richiesta.', 'error', true);
+                }
+            } catch (error) {
+                console.error('Error submitting vacation request:', error);
+                showUIMessageFerie('Errore di connessione o API.', 'error', true);
+            }
+        });
+    }
+
+    function renderVacationRequests(requests, container) {
+        container.innerHTML = ''; // Clear placeholder or previous list
+        if (requests.length === 0) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center gap-6">
+                    <div class="bg-center bg-no-repeat aspect-video bg-cover rounded-xl w-full max-w-[360px]"
+                         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvfNZP--g63ts2YZ96fAZs0E9YodJRarraeJPp30lsNxG3mg8XKs4_EGOIgkGtI6s3NWeOhdWHMIe2URxSyZYOT4FQNrSbTqDX_1EcWVN36eA3zlGEhKgzxsFyjiI4Y29c6Uctu5GnT7r-lY_kMqE7Dr4kXYZu7VGCYdIRjwP4pkzNh1h-n-8R9QhIwBjdCg0b0z7wcV-7bYZ6XXCHb1J4tWdQlR0UK3twTJ-e4KbTEMX1x4BTgJEkQ4g_DeUsjWkb6t8ABtaXdtk");'>
+                    </div>
+                    <div class="flex max-w-[480px] flex-col items-center gap-2">
+                        <p class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] text-center">Nessuna richiesta trovata</p>
+                        <p class="text-[#101418] text-sm font-normal leading-normal text-center">Non ci sono richieste che corrispondono ai criteri selezionati.</p>
+                    </div>
+                     <button id="newRequestButtonPlaceholder" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#eaedf1] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]">
+                        <span class="truncate">Nuova Richiesta</span>
+                    </button>
+                </div>`;
+            // Re-attach event listener if this button is dynamically added
+            const newReqBtnPlaceholder = document.getElementById('newRequestButtonPlaceholder');
+            if (newReqBtnPlaceholder) {
+                newReqBtnPlaceholder.addEventListener('click', () => toggleNewVacationModal(true));
+            }
+            return;
+        }
+
+        const ul = document.createElement('ul');
+        ul.className = 'space-y-4';
+        requests.forEach(req => {
+            const li = document.createElement('li');
+            li.className = 'p-4 border border-gray-200 rounded-lg shadow-sm';
+            const startDate = new Date(req.start_date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+            const endDate = new Date(req.end_date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+            let statusText = req.status;
+            if (req.status === 'pending') statusText = 'In Attesa';
+            if (req.status === 'approved') statusText = 'Approvata';
+            if (req.status === 'rejected') statusText = 'Rifiutata';
+
+            li.innerHTML = \`
+                <div class="flex justify-between items-center">
+                    <h4 class="font-semibold text-md text-gray-800">Dal ${startDate} al ${endDate}</h4>
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full
+                        ${req.status === 'approved' ? 'bg-green-100 text-green-800' :
+                          req.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'}">
+                        ${statusText}
+                    </span>
+                </div>
+                ${req.reason ? \`<p class="text-sm text-gray-600 mt-1">Motivazione: ${req.reason}</p>\` : ''}
+                <p class="text-xs text-gray-400 mt-1">Richiesta il: ${new Date(req.requested_at).toLocaleDateString('it-IT')}</p>
+            \`;
+            ul.appendChild(li);
+        });
+        container.appendChild(ul);
+    }
+
+    async function fetchAndDisplayVacationRequests(tabName) {
+        if (!requestsDisplayContainer) { console.error("Requests display container not found."); return; }
+        activeTab = tabName; // Update active tab
+
+        let filterParams = `user_id=${userId}`;
+        const today = new Date().toISOString().split('T')[0];
+
+        if (tabName === 'In Attesa') {
+            filterParams += '&status=pending';
+        } else if (tabName === 'Prossime') {
+            filterParams += '&status=approved';
+            // Server-side should handle date filtering ideally, or client-side if not.
+            // For now, we fetch 'approved' and will filter client-side for upcoming.
+        } else if (tabName === 'Storico') {
+            // Fetch all approved/rejected, then filter client-side
+            // This is less efficient; ideally API supports date range + multiple statuses.
+            // For this example, we'll fetch all for user and filter.
+        }
+
+        try {
+            const response = await fetch(`/vacation_requests?${filterParams}`);
+            if (!response.ok) { const errData = await response.json(); throw new Error(errData.message || 'Failed to fetch');}
+            let requests = await response.json();
+
+            // Client-side filtering for 'Prossime' and 'Storico' based on the simplified fetch
+            if (tabName === 'Prossime') {
+                requests = requests.filter(r => r.status === 'approved' && r.start_date >= today);
+            } else if (tabName === 'Storico') {
+                requests = requests.filter(r => (r.status === 'approved' && r.end_date < today) || r.status === 'rejected');
+            }
+
+            requests.sort((a,b) => new Date(b.start_date) - new Date(a.start_date)); // Sort by most recent start date
+
+            renderVacationRequests(requests, requestsDisplayContainer);
+        } catch (error) {
+            console.error(`Error fetching vacation requests for ${tabName}:`, error);
+            requestsDisplayContainer.innerHTML = \`<p class="text-red-500 text-center">Errore nel caricare le richieste: ${error.message}</p>\`;
+        }
+    }
+
+    // Tab switching logic
+    if (tabsContainer) {
+        tabsContainer.querySelectorAll('a').forEach(tabLink => {
+            tabLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                tabsContainer.querySelectorAll('a').forEach(tl => {
+                    tl.classList.remove('border-b-[#b2cbe5]', 'text-[#101418]');
+                    tl.classList.add('border-b-transparent', 'text-[#5c728a]');
+                });
+                e.currentTarget.classList.add('border-b-[#b2cbe5]', 'text-[#101418]');
+                e.currentTarget.classList.remove('border-b-transparent', 'text-[#5c728a]');
+
+                const tabName = e.currentTarget.querySelector('p').textContent.trim();
+                fetchAndDisplayVacationRequests(tabName);
+            });
+        });
+    }
+
+    // Initial load (e.g., "Prossime" tab or "In Attesa")
+    // Set the 'Prossime' tab as active visually first
+    const initialActiveTabEl = Array.from(tabsContainer.querySelectorAll('a p')).find(p => p.textContent.trim() === activeTab)?.closest('a');
+    if (initialActiveTabEl) {
+         tabsContainer.querySelectorAll('a').forEach(tl => {
+            tl.classList.remove('border-b-[#b2cbe5]', 'text-[#101418]');
+            tl.classList.add('border-b-transparent', 'text-[#5c728a]');
+        });
+        initialActiveTabEl.classList.add('border-b-[#b2cbe5]', 'text-[#101418]');
+        initialActiveTabEl.classList.remove('border-b-transparent', 'text-[#5c728a]');
+    }
+    fetchAndDisplayVacationRequests(activeTab);
+
+
+});
+</script>
+</body>
 </html>

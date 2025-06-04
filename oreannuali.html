@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Report Annuale - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -34,13 +34,14 @@
               </svg>
             </div>
             <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">TimeTrack</h2>
+            <!-- Note: The logo text "TimeTrack" is from the original HTML, might want to change to "WorkTime" for consistency -->
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Programmazione</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Schede Orario</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Report</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Home</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Programmazione</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/orelavorate.html">Schede Orario</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/oreannuali.html">Report Annuale</a>
             </div>
             <button
               class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#eaedf1] text-[#101418] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
@@ -67,10 +68,20 @@
                 <p class="text-[#5c728a] text-sm font-normal leading-normal">Totale ore lavorate nell'anno corrente</p>
               </div>
             </div>
+
+            <!-- YEAR FILTER HTML INSERTED HERE -->
+            <div class="px-4 py-3 flex flex-wrap items-center gap-4">
+                <div>
+                    <label for="reportYear" class="block text-sm font-medium text-gray-700">Anno:</label>
+                    <input type="number" id="reportYear" name="reportYear" min="2000" max="2100" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2">
+                </div>
+                <button id="applyYearFilter" class="self-end h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold rounded-xl hover:bg-[#a1b9d1]">Mostra Report</button>
+            </div>
+
             <div class="flex flex-wrap gap-4 p-4">
               <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-[#eaedf1]">
                 <p class="text-[#101418] text-base font-medium leading-normal">Totale Ore</p>
-                <p class="text-[#101418] tracking-light text-2xl font-bold leading-tight">1.850</p>
+                <p class="text-[#101418] tracking-light text-2xl font-bold leading-tight">1.850</p> <!-- This will be updated by JS -->
               </div>
             </div>
             <h2 class="text-[#101418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Ripartizione Mensile</h2>
@@ -78,20 +89,7 @@
               <div class="flex min-w-72 flex-1 flex-col gap-2">
                 <p class="text-[#101418] text-base font-medium leading-normal">Ore Lavorate al Mese</p>
                 <div class="grid min-h-[180px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center px-3">
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 10%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Gen</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 40%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Feb</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 50%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Mar</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 10%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Apr</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 20%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Mag</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 20%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Giu</p>
-                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 60%;"></div>
-                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Lug</p>
+                  <!-- Static bars will be cleared by JS -->
                 </div>
               </div>
             </div>
@@ -99,5 +97,111 @@
         </div>
       </div>
     </div>
-  </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const userId = localStorage.getItem('userId');
+    const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+    if (!userId || !userData) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    // --- Page Elements ---
+    const totalAnnualHoursDisplay = document.querySelector('.flex.min-w-\\[158px\\].flex-1.flex-col.gap-2.rounded-xl.p-6.bg-\\[#eaedf1\\] p.tracking-light.text-2xl');
+    const monthlyChartContainer = document.querySelector('.grid.min-h-\\[180px\\].grid-flow-col.gap-6');
+    const reportYearInput = document.getElementById('reportYear');
+    const applyYearFilterButton = document.getElementById('applyYearFilter');
+    const reportTitleElement = document.querySelector('.flex.min-w-72.flex-col.gap-3 p.text-\\[#5c728a\\]');
+
+    function setDefaultYear() {
+        if(reportYearInput) reportYearInput.value = new Date().getFullYear();
+    }
+
+    function showUIMessageOreAnnali(message, type = 'error') {
+        alert(message);
+        console.log(`OreAnnali Message (${type}): ${message}`);
+    }
+
+    async function fetchAndDisplayAnnualReport() {
+        if (!totalAnnualHoursDisplay || !monthlyChartContainer || !reportYearInput) {
+            console.error("Required elements for displaying annual report are missing.");
+            return;
+        }
+
+        const year = reportYearInput.value;
+        if (!year || isNaN(parseInt(year))) {
+            showUIMessageOreAnnali("Inserisci un anno valido.", "error");
+            return;
+        }
+
+        totalAnnualHoursDisplay.textContent = '...';
+        monthlyChartContainer.innerHTML = '<p class="col-span-full text-center py-4">Caricamento...</p>';
+        if(reportTitleElement) reportTitleElement.textContent = `Totale ore lavorate nell'anno ${year}`;
+
+
+        try {
+            const response = await fetch(`/reports/annual_hours/${userId}/${year}`);
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.message || `HTTP error ${response.status}`);
+            }
+            const reportData = await response.json();
+
+            totalAnnualHoursDisplay.textContent = reportData.total_annual_hours !== null ? reportData.total_annual_hours.toFixed(2) : '0.00';
+
+            monthlyChartContainer.innerHTML = '';
+            const monthlyBreakdown = reportData.monthly_breakdown || [];
+
+            if (monthlyBreakdown.length === 0 && (!reportData.total_annual_hours || reportData.total_annual_hours === 0)) {
+                 monthlyChartContainer.innerHTML = '<p class="col-span-full text-center py-4 text-gray-500">Nessun dato orario trovato per questo anno.</p>';
+                 return;
+            }
+
+            const hoursValues = monthlyBreakdown.map(m => m.total_hours).filter(h => h > 0);
+            let maxHours = hoursValues.length > 0 ? Math.max(...hoursValues) : 1;
+            if (maxHours === 0) maxHours = 1;
+
+            const monthLabels = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
+
+            // Ensure 12 columns for 12 months for consistent layout
+            for (let i = 0; i < 12; i++) {
+                const monthData = monthlyBreakdown.find(m => m.month === i + 1) || { month: i + 1, total_hours: 0 };
+                const barHeightPercentage = (monthData.total_hours / maxHours) * 100;
+
+                const columnDiv = document.createElement('div');
+                columnDiv.className = 'flex flex-col items-center justify-end h-full';
+
+                const barDiv = document.createElement('div');
+                barDiv.className = 'bg-[#b2cbe5] w-3/4 rounded-t-sm';
+                barDiv.style.height = `${barHeightPercentage > 0 ? barHeightPercentage : 0.5}%`; // Min height for zero values to be visible
+                barDiv.style.minHeight = '1px'; // Ensure even 0 value shows a tiny line or dot
+                barDiv.title = `${monthData.total_hours.toFixed(2)} ore`;
+
+                const labelP = document.createElement('p');
+                labelP.className = 'text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em] mt-1';
+                labelP.textContent = monthLabels[i];
+
+                columnDiv.appendChild(barDiv);
+                columnDiv.appendChild(labelP);
+                monthlyChartContainer.appendChild(columnDiv);
+            }
+
+        } catch (error) {
+            console.error('Error fetching annual report:', error);
+            totalAnnualHoursDisplay.textContent = 'Errore';
+            monthlyChartContainer.innerHTML = \`<p class="col-span-full text-center py-4 text-red-500">Errore nel caricare il report: ${error.message}</p>\`;
+        }
+    }
+
+    if (applyYearFilterButton) {
+        applyYearFilterButton.addEventListener('click', fetchAndDisplayAnnualReport);
+    }
+
+    setDefaultYear();
+    fetchAndDisplayAnnualReport();
+});
+</script>
+</body>
 </html>
