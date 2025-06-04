@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-gray-50 group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#eaedf1] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#101418]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6_330)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">TimeTrack</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Programmazione</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Schede Orario</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Report</a>
+            </div>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#eaedf1] text-[#101418] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+            >
+              <div class="text-[#101418]" data-icon="Bell" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuACqwhRpUhnMVvXsnQazqPYv7RBPESuEIl_3Qj6Xz8Z9N2VtNiFgHxJmC7AKYE2Ly5qeJNvu6OCfclnI4HmT61s0Su_FqpLI5OB2f06DHZkalojVSKqOyK3fPh1C8h6s06L8SkoJLwKvHRdaB5PXSzfqXRwG4z7esE2pEpZF15MhuJVL8xxWxtO-k_QMacfx3gEbUq8F6v34EdIQCAyhC3VcW4oRk0uzxqwP-u-kBAHCcolQLW5pvK_zLXsBvDAMJFgkPqGry6RFgM");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-[#101418] tracking-light text-[32px] font-bold leading-tight">Ore Annuali</p>
+                <p class="text-[#5c728a] text-sm font-normal leading-normal">Totale ore lavorate nell'anno corrente</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-4 p-4">
+              <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-[#eaedf1]">
+                <p class="text-[#101418] text-base font-medium leading-normal">Totale Ore</p>
+                <p class="text-[#101418] tracking-light text-2xl font-bold leading-tight">1.850</p>
+              </div>
+            </div>
+            <h2 class="text-[#101418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Ripartizione Mensile</h2>
+            <div class="flex flex-wrap gap-4 px-4 py-6">
+              <div class="flex min-w-72 flex-1 flex-col gap-2">
+                <p class="text-[#101418] text-base font-medium leading-normal">Ore Lavorate al Mese</p>
+                <div class="grid min-h-[180px] grid-flow-col gap-6 grid-rows-[1fr_auto] items-end justify-items-center px-3">
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 10%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Gen</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 40%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Feb</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 50%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Mar</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 10%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Apr</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 20%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Mag</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 20%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Giu</p>
+                  <div class="border-[#5c728a] bg-[#eaedf1] border-t-2 w-full" style="height: 60%;"></div>
+                  <p class="text-[#5c728a] text-[13px] font-bold leading-normal tracking-[0.015em]">Lug</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
