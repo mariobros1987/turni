@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione - WorkTime</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+     <style>
+        body { font-family: 'Manrope', 'Noto Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center text-[#101418] mb-6">Registrati a WorkTime</h2>
+        <form id="registerForm">
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-[#101418] mb-1">Username</label>
+                <input type="text" id="username" name="username" required
+                       class="form-input w-full rounded-lg border border-[#d4dbe2] p-3 text-[#101418] focus:border-[#b2cbe5] focus:ring focus:ring-[#b2cbe5]/50">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-[#101418] mb-1">Email</label>
+                <input type="email" id="email" name="email" required
+                       class="form-input w-full rounded-lg border border-[#d4dbe2] p-3 text-[#101418] focus:border-[#b2cbe5] focus:ring focus:ring-[#b2cbe5]/50">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-[#101418] mb-1">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="form-input w-full rounded-lg border border-[#d4dbe2] p-3 text-[#101418] focus:border-[#b2cbe5] focus:ring focus:ring-[#b2cbe5]/50">
+            </div>
+            <button type="submit"
+                    class="w-full bg-[#b2cbe5] text-[#101418] font-bold py-3 px-4 rounded-lg hover:bg-[#a1b9d1] transition duration-150">
+                Registrati
+            </button>
+            <p id="registerMessage" class="mt-4 text-sm text-center"></p>
+        </form>
+        <p class="mt-6 text-center text-sm">
+            Hai già un account? <a href="/login.html" class="text-[#5c728a] hover:underline">Login</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageEl = document.getElementById('registerMessage');
+            messageEl.textContent = '';
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password }) // role defaults to 'employee' in backend
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    messageEl.textContent = 'Registration successful! Please login.';
+                    messageEl.className = 'mt-4 text-sm text-center text-green-600';
+                    // Optionally redirect to login page after a delay
+                    setTimeout(() => { window.location.href = '/login.html'; }, 2000);
+                } else {
+                    messageEl.textContent = data.message || 'Registration failed.';
+                    messageEl.className = 'mt-4 text-sm text-center text-red-600';
+                }
+            } catch (error) {
+                messageEl.textContent = 'An error occurred. Please try again.';
+                messageEl.className = 'mt-4 text-sm text-center text-red-600';
+                console.error('Registration error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

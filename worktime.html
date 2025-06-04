@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Dashboard - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -30,9 +30,9 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Home</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Programma</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Report</a>
+            <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Home</a>
+            <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Programma</a>
+            <a class="text-[#101418] text-sm font-medium leading-normal" href="/orelavorate.html">Report Ore</a>
               <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Impostazioni</a>
             </div>
             <button
@@ -134,5 +134,182 @@
         </div>
       </div>
     </div>
-  </body>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const userId = localStorage.getItem('userId');
+        const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+        if (!userId || !userData) {
+            window.location.href = '/login.html'; // Ensure this is login.html, not /login
+            return;
+        }
+
+        const welcomeMessage = Array.from(document.querySelectorAll('p.tracking-light')).find(p => p.textContent.includes('Bentornat'));
+        if (welcomeMessage && userData.username) {
+            welcomeMessage.textContent = `Bentornat${userData.role === 'female_employee_example_role' ? 'a' : 'o'}, ${userData.username}`;
+        } else if (welcomeMessage && userData.email) {
+             welcomeMessage.textContent = `Bentornat${userData.role === 'female_employee_example_role' ? 'a' : 'o'} (Utente ${userId})`;
+        }
+
+
+        const clockInButton = Array.from(document.querySelectorAll('button .truncate')).find(el => el.textContent.trim() === 'Entrata')?.closest('button');
+        const clockOutButton = Array.from(document.querySelectorAll('button .truncate')).find(el => el.textContent.trim() === 'Uscita')?.closest('button');
+        const recentActivityContainer = document.querySelector('.grid.grid-cols-\\[40px_1fr\\]');
+        const todayScheduleContainer = Array.from(document.querySelectorAll('h2'))
+            .find(h2 => h2.textContent.includes("Programma di oggi"))?.nextElementSibling;
+
+
+        function showUIMessage(message, type = 'info') {
+            const msgElement = document.getElementById('uiMessageArea') || document.createElement('div');
+            if (!document.getElementById('uiMessageArea')) {
+                msgElement.id = 'uiMessageArea';
+                msgElement.style.position = 'fixed';
+                msgElement.style.top = '20px';
+                msgElement.style.left = '50%';
+                msgElement.style.transform = 'translateX(-50%)';
+                msgElement.style.padding = '10px 20px';
+                msgElement.style.borderRadius = '5px';
+                msgElement.style.zIndex = '1000';
+                msgElement.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                document.body.appendChild(msgElement);
+            }
+            msgElement.textContent = message;
+            msgElement.style.backgroundColor = type === 'error' ? '#f8d7da' : '#d4edda';
+            msgElement.style.color = type === 'error' ? '#721c24' : '#155724';
+            setTimeout(() => { msgElement.remove(); }, 3000);
+            console.log(`UI Message (${type}): ${message}`);
+        }
+
+        if (clockInButton) {
+            clockInButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/time_entries/clock_in', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user_id: parseInt(userId) })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        showUIMessage('Clock-in successful!');
+                        fetchRecentActivity();
+                    } else {
+                        showUIMessage(`Clock-in failed: ${data.message || 'Unknown error'}`, 'error');
+                    }
+                } catch (error) {
+                    showUIMessage('Error during clock-in.', 'error');
+                    console.error('Clock-in error:', error);
+                }
+            });
+        }
+
+        if (clockOutButton) {
+            clockOutButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/time_entries/clock_out', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user_id: parseInt(userId) })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        showUIMessage('Clock-out successful!');
+                        fetchRecentActivity();
+                    } else {
+                        showUIMessage(`Clock-out failed: ${data.message || 'Unknown error'}`, 'error');
+                    }
+                } catch (error) {
+                    showUIMessage('Error during clock-out.', 'error');
+                    console.error('Clock-out error:', error);
+                }
+            });
+        }
+
+        async function fetchRecentActivity() {
+            if (!recentActivityContainer) { console.log("Recent activity container not found"); return; }
+            recentActivityContainer.innerHTML = '';
+
+            try {
+                const response = await fetch(`/time_entries?user_id=${userId}&_sort=clock_in_time&_order=desc&_limit=5`); // Using JSONPlaceholder-like sort/limit
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                let entries = await response.json();
+
+                // Client-side sort if API doesn't sort perfectly or limit
+                entries.sort((a,b) => new Date(b.clock_in_time) - new Date(a.clock_in_time));
+                entries = entries.slice(0,5);
+
+
+                if (entries.length === 0) {
+                    recentActivityContainer.innerHTML = '<p class="col-span-2 text-center text-gray-500 py-4">Nessuna attività recente.</p>';
+                    return;
+                }
+
+                const clockIconSvg = `
+                    <div class="text-[#101418]" data-icon="Clock" data-size="24px" data-weight="regular">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                        </svg>
+                    </div>`;
+
+                let htmlContent = '';
+                entries.forEach((entry, index) => {
+                    const isLastElement = index === entries.length -1;
+                    const bottomLineClass = isLastElement ? 'h-0' : 'h-2 grow'; // No line for the last element
+
+                    if (entry.clock_out_time) {
+                        htmlContent += `
+                            <div class="flex flex-col items-center gap-1 pt-3"> ${clockIconSvg} <div class="w-[1.5px] bg-[#d4dbe2] ${bottomLineClass}"></div> </div>
+                            <div class="flex flex-1 flex-col py-3"> <p class="text-[#101418] text-base font-medium leading-normal">Uscita</p> <p class="text-[#5c728a] text-base font-normal leading-normal">${new Date(entry.clock_out_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (${new Date(entry.date).toLocaleDateString()})</p> </div>`;
+                    }
+                    htmlContent += `
+                        <div class="flex flex-col items-center gap-1 ${entry.clock_out_time ? '' : 'pt-3'}"> ${entry.clock_out_time ? `<div class="w-[1.5px] bg-[#d4dbe2] h-2"></div>` : ''} ${clockIconSvg} <div class="w-[1.5px] bg-[#d4dbe2] ${bottomLineClass}"></div> </div>
+                        <div class="flex flex-1 flex-col py-3"> <p class="text-[#101418] text-base font-medium leading-normal">Entrata</p> <p class="text-[#5c728a] text-base font-normal leading-normal">${new Date(entry.clock_in_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} (${new Date(entry.date).toLocaleDateString()})</p> </div>`;
+                });
+                recentActivityContainer.innerHTML = htmlContent;
+
+            } catch (error) {
+                console.error('Failed to fetch recent activity:', error);
+                recentActivityContainer.innerHTML = '<p class="col-span-2 text-center text-red-500 py-4">Errore nel caricare attività.</p>';
+            }
+        }
+
+        async function fetchTodaySchedule() {
+            if (!todayScheduleContainer) { console.log("Today schedule container not found"); return; }
+            const scheduleTitleEl = todayScheduleContainer.querySelector('p.line-clamp-1');
+            const scheduleTimeEl = todayScheduleContainer.querySelector('p.line-clamp-2');
+
+            try {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth() + 1;
+
+                const response = await fetch(`/shifts?user_id=${userId}&year=${year}&month=${month}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const shifts = await response.json();
+
+                const todayDateString = today.toISOString().split('T')[0];
+                const todayShift = shifts.find(shift => shift.date === todayDateString);
+
+                if (todayShift && scheduleTimeEl) {
+                    if(scheduleTitleEl) scheduleTitleEl.textContent = todayShift.location ? `Turno (${todayShift.location})` : 'Turno di lavoro';
+                    const startTime = new Date(`1970-01-01T${todayShift.start_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const endTime = new Date(`1970-01-01T${todayShift.end_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    scheduleTimeEl.textContent = `${startTime} - ${endTime}`;
+                } else if (scheduleTimeEl) {
+                     if(scheduleTitleEl) scheduleTitleEl.textContent = 'Nessun Turno';
+                    scheduleTimeEl.textContent = 'Nessun turno programmato per oggi.';
+                }
+            } catch (error) {
+                console.error('Failed to fetch today's schedule:', error);
+                if (scheduleTimeEl) scheduleTimeEl.textContent = 'Errore nel caricare il programma.';
+                if (scheduleTitleEl) scheduleTitleEl.textContent = 'Errore';
+            }
+        }
+
+        fetchRecentActivity();
+        fetchTodaySchedule();
+    });
+</script>
+</body>
 </html>
