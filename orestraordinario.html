@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Stitch Design</title>
+    <title>Gestione Straordinari - WorkTime</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -36,14 +36,14 @@
                 </defs>
               </svg>
             </div>
-            <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">TimeTrack</h2>
+            <h2 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em]">WorkTime</h2>
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Dashboard</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Turni</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Timbrature</a>
-              <a class="text-[#101418] text-sm font-medium leading-normal" href="#">Straordinari</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/worktime.html">Dashboard</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/gestioneturni.html">Turni</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/orelavorate.html">Timbrature</a>
+              <a class="text-[#101418] text-sm font-medium leading-normal" href="/orestraordinario.html">Straordinari</a>
             </div>
             <button
               class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#eaedf1] text-[#101418] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
@@ -70,60 +70,250 @@
                 <p class="text-[#5c728a] text-sm font-normal leading-normal">Registra e gestisci le tue ore di lavoro straordinario.</p>
               </div>
             </div>
-            <h3 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Nuova Richiesta</h3>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#101418] text-base font-medium leading-normal pb-2">Data</p>
-                <select
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+            <form> <!-- Added form tag to wrap inputs -->
+              <h3 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Nuova Richiesta</h3>
+              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Data</p>
+                  <!-- Original select for Data to be replaced by JS -->
+                  <select name="Data"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                  >
+                    <option value="one">Seleziona data (verrà rimpiazzato)</option>
+                  </select>
+                </label>
+              </div>
+              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Tipo di Straordinario</p>
+                  <!-- Original select for Tipo to be replaced by JS -->
+                  <select name="Tipo di Straordinario"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                  >
+                    <option value="one">Seleziona tipo (verrà rimpiazzato)</option>
+                  </select>
+                </label>
+              </div>
+              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
+                  <input
+                    placeholder="Inserisci ore"
+                    type="number" step="0.5" min="0"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                    value=""
+                  />
+                </label>
+              </div>
+              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                <label class="flex flex-col min-w-40 flex-1">
+                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
+                  <textarea
+                    placeholder="Aggiungi note"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                  ></textarea>
+                </label>
+              </div>
+              <div class="flex px-4 py-3 justify-end">
+                <button
+                  type="button"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
                 >
-                  <option value="one">Seleziona data</option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
-                </select>
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#101418] text-base font-medium leading-normal pb-2">Tipo di Straordinario</p>
-                <select
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                >
-                  <option value="one">Seleziona tipo</option>
-                  <option value="two">two</option>
-                  <option value="three">three</option>
-                </select>
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
-                <input
-                  placeholder="Inserisci ore"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label class="flex flex-col min-w-40 flex-1">
-                <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
-                <textarea
-                  placeholder="Aggiungi note"
-                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                ></textarea>
-              </label>
-            </div>
-            <div class="flex px-4 py-3 justify-end">
-              <button
-                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
-              >
-                <span class="truncate">Invia Richiesta</span>
-              </button>
+                  <span class="truncate">Invia Richiesta</span>
+                </button>
+              </div>
+            </form>
+            <!-- PAST_OVERTIME_HTML will be inserted here by script -->
+            <div class="px-4 py-3">
+                <h3 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] mb-3 pt-4 border-t mt-6">Storico Richieste Straordinario</h3>
+                <div id="pastOvertimeRequestsContainer" class="space-y-3">
+                    <p class="text-sm text-gray-500">Caricamento richieste...</p>
+                </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const userId = localStorage.getItem('userId');
+    const userData = JSON.parse(localStorage.getItem('workTimeUser'));
+
+    if (!userId || !userData) {
+        window.location.href = '/login.html';
+        return;
+    }
+
+    // --- Form Elements ---
+    const overtimeForm = document.querySelector('form');
+    const hoursInput = overtimeForm.querySelector('input[placeholder="Inserisci ore"]');
+    const notesInput = overtimeForm.querySelector('textarea[placeholder="Aggiungi note"]');
+    const submitButtonSpan = overtimeForm.querySelector('button span.truncate'); // Corrected selector for span
+    const formMessageEl = document.createElement('p');
+    formMessageEl.className = 'mt-3 text-sm text-center';
+    if (submitButtonSpan) {
+        // Insert message element before the button's parent div if structure is form > ... > div.justify-end > button
+        const buttonContainer = submitButtonSpan.closest('div.justify-end');
+        if (buttonContainer && buttonContainer.parentNode) {
+             buttonContainer.parentNode.insertBefore(formMessageEl, buttonContainer);
+        } else if (overtimeForm) { // Fallback: append to form
+            overtimeForm.appendChild(formMessageEl);
+        }
+    }
+
+
+    // --- Past Requests Container ---
+    const pastRequestsContainer = document.getElementById('pastOvertimeRequestsContainer');
+
+    // --- Modify form elements for better usability ---
+    const originalDateSelect = overtimeForm.querySelector('select[name="Data"]');
+    let newDateInput;
+    if (originalDateSelect) {
+        newDateInput = document.createElement('input');
+        newDateInput.type = 'date';
+        newDateInput.id = 'overtimeDate';
+        newDateInput.name = 'overtimeDate';
+        newDateInput.required = true;
+        newDateInput.className = originalDateSelect.className.replace('bg-[image:--select-button-svg]', '');
+        newDateInput.valueAsDate = new Date(); // Default to today
+        originalDateSelect.parentNode.replaceChild(newDateInput, originalDateSelect);
+    } else { console.error("Original date select not found for replacement."); }
+
+    const originalTypeSelect = overtimeForm.querySelector('select[name="Tipo di Straordinario"]');
+    let newTypeInput;
+    if (originalTypeSelect) {
+        newTypeInput = document.createElement('input');
+        newTypeInput.type = 'text';
+        newTypeInput.id = 'overtimeType';
+        newTypeInput.name = 'overtimeType';
+        newTypeInput.required = true;
+        newTypeInput.placeholder = 'Es. Festivo, Notturno, Progetto X';
+        newTypeInput.className = originalTypeSelect.className.replace('bg-[image:--select-button-svg]', '');
+        originalTypeSelect.parentNode.replaceChild(newTypeInput, originalTypeSelect);
+    } else { console.error("Original type select not found for replacement."); }
+
+
+    function showUIMessageStraordinari(message, type = 'info') {
+        formMessageEl.textContent = message;
+        formMessageEl.className = `mt-3 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+        if (type !== 'error') {
+            setTimeout(() => { formMessageEl.textContent = ''; }, 3000);
+        }
+    }
+
+    if (overtimeForm && submitButtonSpan) {
+        const actualSubmitButton = submitButtonSpan.closest('button');
+        if (actualSubmitButton) {
+            actualSubmitButton.addEventListener('click', async (event) => {
+                event.preventDefault();
+
+                const dateValue = newDateInput ? newDateInput.value : '';
+                const typeValue = newTypeInput ? newTypeInput.value : '';
+                const hoursValue = hoursInput.value;
+                const notesValue = notesInput.value;
+
+                if (!dateValue || !typeValue || !hoursValue) {
+                    showUIMessageStraordinari('Data, Tipo e Ore sono obbligatori.', 'error');
+                    return;
+                }
+                if (isNaN(parseFloat(hoursValue)) || parseFloat(hoursValue) <= 0) {
+                    showUIMessageStraordinari('Le ore devono essere un numero positivo.', 'error');
+                    return;
+                }
+
+                const requestData = {
+                    user_id: parseInt(userId),
+                    date: dateValue,
+                    overtime_type: typeValue,
+                    hours: parseFloat(hoursValue),
+                    notes: notesValue
+                };
+
+                try {
+                    actualSubmitButton.disabled = true; // Disable button
+                    showUIMessageStraordinari('Invio in corso...', 'info');
+
+                    const response = await fetch('/overtime_entries', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestData)
+                    });
+                    const responseData = await response.json();
+                    if (response.ok) {
+                        showUIMessageStraordinari('Richiesta straordinario inviata con successo!', 'success');
+                        overtimeForm.reset();
+                        if(newDateInput) newDateInput.valueAsDate = new Date();
+                        if(newTypeInput) newTypeInput.value = '';
+                        fetchAndDisplayPastOvertime();
+                    } else {
+                        showUIMessageStraordinari(responseData.message || 'Errore nell\'inviare la richiesta.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error submitting overtime request:', error);
+                    showUIMessageStraordinari('Errore di connessione o API.', 'error');
+                } finally {
+                    actualSubmitButton.disabled = false; // Re-enable button
+                }
+            });
+        }
+    }
+
+    function renderPastOvertime(requests) {
+        if (!pastRequestsContainer) return;
+        pastRequestsContainer.innerHTML = '';
+
+        if (requests.length === 0) {
+            pastRequestsContainer.innerHTML = '<p class="text-sm text-gray-500">Nessuna richiesta di straordinario precedente.</p>';
+            return;
+        }
+
+        const ul = document.createElement('ul');
+        ul.className = 'space-y-3';
+        requests.forEach(req => {
+            const li = document.createElement('li');
+            li.className = 'p-3 border border-gray-200 rounded-md shadow-sm bg-white';
+            const reqDate = new Date(req.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+            let statusText = req.status;
+            if (req.status === 'pending') statusText = 'In Attesa';
+            if (req.status === 'approved') statusText = 'Approvata';
+            if (req.status === 'rejected') statusText = 'Rifiutata';
+
+            li.innerHTML = \`
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-gray-700">${reqDate} - ${req.hours} ore (${req.overtime_type})</span>
+                    <span class="px-2 py-0.5 text-xs font-semibold rounded-full
+                        ${req.status === 'approved' ? 'bg-green-100 text-green-700' :
+                          req.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'}">
+                        ${statusText}
+                    </span>
+                </div>
+                ${req.notes ? \`<p class="text-xs text-gray-500 mt-1">Note: ${req.notes}</p>\` : ''}
+            \`;
+            ul.appendChild(li);
+        });
+        pastRequestsContainer.appendChild(ul);
+    }
+
+    async function fetchAndDisplayPastOvertime() {
+        if (!pastRequestsContainer) return;
+        try {
+            const response = await fetch(`/overtime_entries?user_id=${userId}`);
+            if (!response.ok) { const errData = await response.json(); throw new Error(errData.message || 'Failed to fetch');}
+            let requests = await response.json();
+            requests.sort((a,b) => new Date(b.date) - new Date(a.date));
+            renderPastOvertime(requests);
+        } catch (error) {
+            console.error('Error fetching past overtime requests:', error);
+            pastRequestsContainer.innerHTML = \`<p class="text-red-500 text-sm">Errore nel caricare lo storico: ${error.message}</p>\`;
+        }
+    }
+
+    // Initial load
+    if(newDateInput) newDateInput.valueAsDate = new Date(); // Set initial date for new request
+    fetchAndDisplayPastOvertime();
+});
+</script>
+</body>
 </html>
