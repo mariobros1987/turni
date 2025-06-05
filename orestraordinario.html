@@ -114,6 +114,7 @@
                     <label class="flex flex-col min-w-40 flex-1">
                       <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
                       <input
+                id="overtimeHoursInput"
                         placeholder="Inserisci ore"
                         type="number" step="0.5" min="0"
                         class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
@@ -125,6 +126,7 @@
                     <label class="flex flex-col min-w-40 flex-1">
                       <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
                       <textarea
+                id="overtimeNotesInput"
                         placeholder="Aggiungi note"
                         class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
                       ></textarea>
@@ -171,8 +173,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // --- Form Elements (now inside the modal) ---
     const overtimeForm = document.getElementById('overtimeRequestForm'); // Changed selector to ID
-    const hoursInput = overtimeForm.querySelector('input[placeholder="Inserisci ore"]');
-    const notesInput = overtimeForm.querySelector('textarea[placeholder="Aggiungi note"]');
+    const hoursInput = document.getElementById('overtimeHoursInput');
+    const notesInput = document.getElementById('overtimeNotesInput');
     // The submit button is now identified by ID for clarity in the script
     const submitButton = document.getElementById('submitOvertimeRequestBtn');
     const formMessageEl = document.createElement('p');
