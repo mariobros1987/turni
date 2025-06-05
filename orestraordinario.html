@@ -69,60 +69,79 @@
                 <p class="text-[#101418] tracking-light text-[32px] font-bold leading-tight">Ore Straordinarie</p>
                 <p class="text-[#5c728a] text-sm font-normal leading-normal">Registra e gestisci le tue ore di lavoro straordinario.</p>
               </div>
-            </div>
-            <form> <!-- Added form tag to wrap inputs -->
-              <h3 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Nuova Richiesta</h3>
-              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label class="flex flex-col min-w-40 flex-1">
-                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Data</p>
-                  <!-- Original select for Data to be replaced by JS -->
-                  <select name="Data"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                  >
-                    <option value="one">Seleziona data (verrà rimpiazzato)</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label class="flex flex-col min-w-40 flex-1">
-                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Tipo di Straordinario</p>
-                  <!-- Original select for Tipo to be replaced by JS -->
-                  <select name="Tipo di Straordinario"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                  >
-                    <option value="one">Seleziona tipo (verrà rimpiazzato)</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label class="flex flex-col min-w-40 flex-1">
-                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
-                  <input
-                    placeholder="Inserisci ore"
-                    type="number" step="0.5" min="0"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                    value=""
-                  />
-                </label>
-              </div>
-              <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-                <label class="flex flex-col min-w-40 flex-1">
-                  <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
-                  <textarea
-                    placeholder="Aggiungi note"
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
-                  ></textarea>
-                </label>
-              </div>
-              <div class="flex px-4 py-3 justify-end">
+              <div class="flex justify-end p-4">
                 <button
-                  type="button"
-                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
+                  id="openOvertimeModalBtn"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-blue-500 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-600"
                 >
-                  <span class="truncate">Invia Richiesta</span>
+                  <span class="truncate">Richiedi Straordinario</span>
                 </button>
               </div>
-            </form>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="overtimeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+              <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center pb-3">
+                  <p class="text-2xl font-bold">Richiesta Ore Straordinarie</p>
+                  <button id="closeOvertimeModalBtn" class="cursor-pointer z-50 px-2 py-1">
+                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path></svg>
+                  </button>
+                </div>
+                <form id="overtimeRequestForm"> <!-- Moved form tag here and gave it an ID -->
+                  <!-- Form content will be moved here from the original position -->
+                  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                    <label class="flex flex-col min-w-40 flex-1">
+                      <p class="text-[#101418] text-base font-medium leading-normal pb-2">Data</p>
+                      <select name="Data"
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                      >
+                        <option value="one">Seleziona data (verrà rimpiazzato)</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                    <label class="flex flex-col min-w-40 flex-1">
+                      <p class="text-[#101418] text-base font-medium leading-normal pb-2">Tipo di Straordinario</p>
+                      <select name="Tipo di Straordinario"
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                      >
+                        <option value="one">Seleziona tipo (verrà rimpiazzato)</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                    <label class="flex flex-col min-w-40 flex-1">
+                      <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
+                      <input
+                        placeholder="Inserisci ore"
+                        type="number" step="0.5" min="0"
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                        value=""
+                      />
+                    </label>
+                  </div>
+                  <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                    <label class="flex flex-col min-w-40 flex-1">
+                      <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
+                      <textarea
+                        placeholder="Aggiungi note"
+                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                      ></textarea>
+                    </label>
+                  </div>
+                  <div class="flex px-4 py-3 justify-end">
+                    <button
+                      type="button" id="submitOvertimeRequestBtn"
+                      class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
+                    >
+                      <span class="truncate">Invia Richiesta</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
             <!-- PAST_OVERTIME_HTML will be inserted here by script -->
             <div class="px-4 py-3">
                 <h3 class="text-[#101418] text-lg font-bold leading-tight tracking-[-0.015em] mb-3 pt-4 border-t mt-6">Storico Richieste Straordinario</h3>
@@ -145,21 +164,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    // --- Form Elements ---
-    const overtimeForm = document.querySelector('form');
+    // --- Modal Elements ---
+    const overtimeModal = document.getElementById('overtimeModal');
+    const openOvertimeModalBtn = document.getElementById('openOvertimeModalBtn');
+    const closeOvertimeModalBtn = document.getElementById('closeOvertimeModalBtn');
+
+    // --- Form Elements (now inside the modal) ---
+    const overtimeForm = document.getElementById('overtimeRequestForm'); // Changed selector to ID
     const hoursInput = overtimeForm.querySelector('input[placeholder="Inserisci ore"]');
     const notesInput = overtimeForm.querySelector('textarea[placeholder="Aggiungi note"]');
-    const submitButtonSpan = overtimeForm.querySelector('button span.truncate'); // Corrected selector for span
+    // The submit button is now identified by ID for clarity in the script
+    const submitButton = document.getElementById('submitOvertimeRequestBtn');
     const formMessageEl = document.createElement('p');
     formMessageEl.className = 'mt-3 text-sm text-center';
-    if (submitButtonSpan) {
-        // Insert message element before the button's parent div if structure is form > ... > div.justify-end > button
-        const buttonContainer = submitButtonSpan.closest('div.justify-end');
-        if (buttonContainer && buttonContainer.parentNode) {
-             buttonContainer.parentNode.insertBefore(formMessageEl, buttonContainer);
-        } else if (overtimeForm) { // Fallback: append to form
-            overtimeForm.appendChild(formMessageEl);
-        }
+
+    // Insert message element within the form, before the submit button's container
+    if (submitButton && submitButton.parentNode) {
+        submitButton.parentNode.parentNode.insertBefore(formMessageEl, submitButton.parentNode);
+    } else if (overtimeForm) { // Fallback: append to form
+        overtimeForm.appendChild(formMessageEl);
     }
 
 
@@ -172,44 +195,71 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (originalDateSelect) {
         newDateInput = document.createElement('input');
         newDateInput.type = 'date';
-        newDateInput.id = 'overtimeDate';
-        newDateInput.name = 'overtimeDate';
+        newDateInput.id = 'overtimeDate'; // Keep ID for potential future use
+        newDateInput.name = 'overtimeDate'; // Name for form submission
         newDateInput.required = true;
-        newDateInput.className = originalDateSelect.className.replace('bg-[image:--select-button-svg]', '');
+        newDateInput.className = originalDateSelect.className.replace('bg-[image:--select-button-svg]', ''); // Keep styling, remove select arrow
         newDateInput.valueAsDate = new Date(); // Default to today
         originalDateSelect.parentNode.replaceChild(newDateInput, originalDateSelect);
-    } else { console.error("Original date select not found for replacement."); }
+    } else { console.error("Original date select (inside modal) not found for replacement."); }
 
     const originalTypeSelect = overtimeForm.querySelector('select[name="Tipo di Straordinario"]');
     let newTypeInput;
     if (originalTypeSelect) {
         newTypeInput = document.createElement('input');
         newTypeInput.type = 'text';
-        newTypeInput.id = 'overtimeType';
-        newTypeInput.name = 'overtimeType';
+        newTypeInput.id = 'overtimeType'; // Keep ID
+        newTypeInput.name = 'overtimeType'; // Name for form submission
         newTypeInput.required = true;
         newTypeInput.placeholder = 'Es. Festivo, Notturno, Progetto X';
-        newTypeInput.className = originalTypeSelect.className.replace('bg-[image:--select-button-svg]', '');
+        newTypeInput.className = originalTypeSelect.className.replace('bg-[image:--select-button-svg]', ''); // Keep styling, remove select arrow
         originalTypeSelect.parentNode.replaceChild(newTypeInput, originalTypeSelect);
-    } else { console.error("Original type select not found for replacement."); }
+    } else { console.error("Original type select (inside modal) not found for replacement."); }
+
+    // --- Modal Show/Hide Logic ---
+    if (openOvertimeModalBtn) {
+        openOvertimeModalBtn.addEventListener('click', () => {
+            if (overtimeModal) overtimeModal.classList.remove('hidden');
+            if (newDateInput) newDateInput.valueAsDate = new Date(); // Reset date to today when opening
+            if (newTypeInput) newTypeInput.value = ''; // Clear type
+            if (hoursInput) hoursInput.value = ''; // Clear hours
+            if (notesInput) notesInput.value = ''; // Clear notes
+            showUIMessageStraordinari('', 'info'); // Clear any previous messages
+        });
+    }
+
+    if (closeOvertimeModalBtn) {
+        closeOvertimeModalBtn.addEventListener('click', () => {
+            if (overtimeModal) overtimeModal.classList.add('hidden');
+        });
+    }
+
+    // Close modal if clicking outside of it
+    if (overtimeModal) {
+        overtimeModal.addEventListener('click', (event) => {
+            if (event.target === overtimeModal) { // Check if the click is on the backdrop
+                overtimeModal.classList.add('hidden');
+            }
+        });
+    }
 
 
     function showUIMessageStraordinari(message, type = 'info') {
         formMessageEl.textContent = message;
-        formMessageEl.className = `mt-3 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
-        if (type !== 'error') {
-            setTimeout(() => { formMessageEl.textContent = ''; }, 3000);
+        formMessageEl.className = `my-2 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+        if (type === 'error') {
+           // Keep error messages visible until next action
+        } else {
+             setTimeout(() => { if(formMessageEl.textContent === message) formMessageEl.textContent = ''; }, 3000);
         }
     }
 
-    if (overtimeForm && submitButtonSpan) {
-        const actualSubmitButton = submitButtonSpan.closest('button');
-        if (actualSubmitButton) {
-            actualSubmitButton.addEventListener('click', async (event) => {
-                event.preventDefault();
+    if (overtimeForm && submitButton) { // Use the direct submitButton reference
+        submitButton.addEventListener('click', async (event) => {
+            event.preventDefault();
 
-                const dateValue = newDateInput ? newDateInput.value : '';
-                const typeValue = newTypeInput ? newTypeInput.value : '';
+            const dateValue = newDateInput ? newDateInput.value : '';
+            const typeValue = newTypeInput ? newTypeInput.value : '';
                 const hoursValue = hoursInput.value;
                 const notesValue = notesInput.value;
 
@@ -231,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 };
 
                 try {
-                    actualSubmitButton.disabled = true; // Disable button
+                    submitButton.disabled = true; // Disable button
                     showUIMessageStraordinari('Invio in corso...', 'info');
 
                     const response = await fetch('/overtime_entries', {
@@ -242,10 +292,14 @@ document.addEventListener('DOMContentLoaded', async function() {
                     const responseData = await response.json();
                     if (response.ok) {
                         showUIMessageStraordinari('Richiesta straordinario inviata con successo!', 'success');
-                        overtimeForm.reset();
-                        if(newDateInput) newDateInput.valueAsDate = new Date();
-                        if(newTypeInput) newTypeInput.value = '';
-                        fetchAndDisplayPastOvertime();
+                        overtimeForm.reset(); // Reset form fields
+                        if(newDateInput) newDateInput.valueAsDate = new Date(); // Reset date to today
+                        if(newTypeInput) newTypeInput.value = ''; // Clear type input
+
+                        fetchAndDisplayPastOvertime(); // Refresh the list
+                        setTimeout(() => { // Close modal after a short delay
+                           if (overtimeModal) overtimeModal.classList.add('hidden');
+                        }, 1500); // Give user time to see success message
                     } else {
                         showUIMessageStraordinari(responseData.message || 'Errore nell\'inviare la richiesta.', 'error');
                     }
@@ -253,10 +307,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                     console.error('Error submitting overtime request:', error);
                     showUIMessageStraordinari('Errore di connessione o API.', 'error');
                 } finally {
-                    actualSubmitButton.disabled = false; // Re-enable button
+                    submitButton.disabled = false; // Re-enable button
                 }
             });
-        }
     }
 
     function renderPastOvertime(requests) {
