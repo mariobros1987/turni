@@ -73,11 +73,13 @@
             <div class="flex justify-stretch">
               <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-between">
                 <button
+                  id="clockInBtn"
                   class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-[#b2cbe5] text-[#101418] text-base font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Entrata</span>
                 </button>
                 <button
+                  id="clockOutBtn"
                   class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-[#eaedf1] text-[#101418] text-base font-bold leading-normal tracking-[0.015em]"
                 >
                   <span class="truncate">Uscita</span>
@@ -160,8 +162,8 @@
         }
 
 
-        const clockInButton = Array.from(document.querySelectorAll('button .truncate')).find(el => el.textContent.trim() === 'Entrata')?.closest('button');
-        const clockOutButton = Array.from(document.querySelectorAll('button .truncate')).find(el => el.textContent.trim() === 'Uscita')?.closest('button');
+        const clockInButton = document.getElementById('clockInBtn');
+        const clockOutButton = document.getElementById('clockOutBtn');
         const recentActivityContainer = document.querySelector('.grid.grid-cols-\\[40px_1fr\\]');
         const todayScheduleContainer = Array.from(document.querySelectorAll('h2'))
             .find(h2 => h2.textContent.includes("Programma di oggi"))?.nextElementSibling;
@@ -292,6 +294,7 @@
             <label class="flex flex-col min-w-40 flex-1">
               <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
               <input
+                id="overtimeHoursInput"
                 placeholder="Inserisci ore"
                 type="number" step="0.5" min="0"
                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
@@ -303,6 +306,7 @@
             <label class="flex flex-col min-w-40 flex-1">
               <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
               <textarea
+                id="overtimeNotesInput"
                 placeholder="Aggiungi note"
                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
               ></textarea>
@@ -383,8 +387,8 @@
         const closeOvertimeModalBtn = document.getElementById('closeOvertimeModalBtn'); // Same ID as in orestraordinario.html
 
         const overtimeForm = document.getElementById('overtimeRequestForm'); // Same ID
-        const hoursInputModal = overtimeForm.querySelector('input[placeholder="Inserisci ore"]');
-        const notesInputModal = overtimeForm.querySelector('textarea[placeholder="Aggiungi note"]');
+        const hoursInputModal = document.getElementById('overtimeHoursInput');
+        const notesInputModal = document.getElementById('overtimeNotesInput');
         const submitButtonModal = document.getElementById('submitOvertimeRequestBtn'); // Same ID
         const formMessageModalEl = document.createElement('p');
         formMessageModalEl.className = 'mt-3 text-sm text-center';
