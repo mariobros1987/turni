@@ -82,6 +82,12 @@
                 >
                   <span class="truncate">Uscita</span>
                 </button>
+                <button
+                  id="openOvertimeModalBtnWorktime"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-blue-500 text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-blue-600"
+                >
+                  <span class="truncate">Richiedi Straordinario</span>
+                </button>
               </div>
             </div>
             <h2 class="text-[#101418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Attività recenti</h2>
@@ -252,6 +258,67 @@
                         </svg>
                     </div>`;
 
+    <!-- Overtime Modal Structure (copied from orestraordinario.html) -->
+    <div id="overtimeModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+      <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl font-bold">Richiesta Ore Straordinarie</p>
+          <button id="closeOvertimeModalBtn" class="cursor-pointer z-50 px-2 py-1">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path></svg>
+          </button>
+        </div>
+        <form id="overtimeRequestForm">
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <p class="text-[#101418] text-base font-medium leading-normal pb-2">Data</p>
+              <select name="Data"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+              >
+                <option value="one">Seleziona data (verrà rimpiazzato)</option>
+              </select>
+            </label>
+          </div>
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <p class="text-[#101418] text-base font-medium leading-normal pb-2">Tipo di Straordinario</p>
+              <select name="Tipo di Straordinario"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 bg-[image:--select-button-svg] placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+              >
+                <option value="one">Seleziona tipo (verrà rimpiazzato)</option>
+              </select>
+            </label>
+          </div>
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <p class="text-[#101418] text-base font-medium leading-normal pb-2">Ore</p>
+              <input
+                placeholder="Inserisci ore"
+                type="number" step="0.5" min="0"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] h-14 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+                value=""
+              />
+            </label>
+          </div>
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <p class="text-[#101418] text-base font-medium leading-normal pb-2">Note (opzionale)</p>
+              <textarea
+                placeholder="Aggiungi note"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#101418] focus:outline-0 focus:ring-0 border border-[#d4dbe2] bg-gray-50 focus:border-[#d4dbe2] min-h-36 placeholder:text-[#5c728a] p-[15px] text-base font-normal leading-normal"
+              ></textarea>
+            </label>
+          </div>
+          <div class="flex px-4 py-3 justify-end">
+            <button
+              type="button" id="submitOvertimeRequestBtn"
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#b2cbe5] text-[#101418] text-sm font-bold leading-normal tracking-[0.015em]"
+            >
+              <span class="truncate">Invia Richiesta</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
                 let htmlContent = '';
                 entries.forEach((entry, index) => {
                     const isLastElement = index === entries.length -1;
@@ -309,6 +376,140 @@
 
         fetchRecentActivity();
         fetchTodaySchedule();
+
+        // --- Overtime Modal Logic (adapted from orestraordinario.html) ---
+        const overtimeModal = document.getElementById('overtimeModal');
+        const openOvertimeModalBtnWorktime = document.getElementById('openOvertimeModalBtnWorktime'); // New button for this page
+        const closeOvertimeModalBtn = document.getElementById('closeOvertimeModalBtn'); // Same ID as in orestraordinario.html
+
+        const overtimeForm = document.getElementById('overtimeRequestForm'); // Same ID
+        const hoursInputModal = overtimeForm.querySelector('input[placeholder="Inserisci ore"]');
+        const notesInputModal = overtimeForm.querySelector('textarea[placeholder="Aggiungi note"]');
+        const submitButtonModal = document.getElementById('submitOvertimeRequestBtn'); // Same ID
+        const formMessageModalEl = document.createElement('p');
+        formMessageModalEl.className = 'mt-3 text-sm text-center';
+
+        if (submitButtonModal && submitButtonModal.parentNode) {
+            submitButtonModal.parentNode.parentNode.insertBefore(formMessageModalEl, submitButtonModal.parentNode);
+        } else if (overtimeForm) {
+            overtimeForm.appendChild(formMessageModalEl);
+        }
+
+        let newDateInputModal;
+        const originalDateSelectModal = overtimeForm.querySelector('select[name="Data"]');
+        if (originalDateSelectModal) {
+            newDateInputModal = document.createElement('input');
+            newDateInputModal.type = 'date';
+            newDateInputModal.id = 'overtimeDateModal'; // Potentially make ID unique if conflicts arise, though not strictly necessary if context is handled
+            newDateInputModal.name = 'overtimeDate';
+            newDateInputModal.required = true;
+            newDateInputModal.className = originalDateSelectModal.className.replace('bg-[image:--select-button-svg]', '');
+            newDateInputModal.valueAsDate = new Date();
+            originalDateSelectModal.parentNode.replaceChild(newDateInputModal, originalDateSelectModal);
+        } else { console.error("Modal: Original date select not found for replacement."); }
+
+        let newTypeInputModal;
+        const originalTypeSelectModal = overtimeForm.querySelector('select[name="Tipo di Straordinario"]');
+        if (originalTypeSelectModal) {
+            newTypeInputModal = document.createElement('input');
+            newTypeInputModal.type = 'text';
+            newTypeInputModal.id = 'overtimeTypeModal'; // Potentially unique ID
+            newTypeInputModal.name = 'overtimeType';
+            newTypeInputModal.required = true;
+            newTypeInputModal.placeholder = 'Es. Festivo, Notturno, Progetto X';
+            newTypeInputModal.className = originalTypeSelectModal.className.replace('bg-[image:--select-button-svg]', '');
+            originalTypeSelectModal.parentNode.replaceChild(newTypeInputModal, originalTypeSelectModal);
+        } else { console.error("Modal: Original type select not found for replacement."); }
+
+        function showUIMessageModal(message, type = 'info') {
+            formMessageModalEl.textContent = message;
+            formMessageModalEl.className = `my-2 text-sm text-center ${type === 'error' ? 'text-red-600' : 'text-green-600'}`;
+            if (type === 'error') {
+                // Keep error messages visible
+            } else {
+                 setTimeout(() => { if(formMessageModalEl.textContent === message) formMessageModalEl.textContent = ''; }, 3000);
+            }
+        }
+
+        if (openOvertimeModalBtnWorktime) {
+            openOvertimeModalBtnWorktime.addEventListener('click', () => {
+                if (overtimeModal) overtimeModal.classList.remove('hidden');
+                if (newDateInputModal) newDateInputModal.valueAsDate = new Date();
+                if (newTypeInputModal) newTypeInputModal.value = '';
+                if (hoursInputModal) hoursInputModal.value = '';
+                if (notesInputModal) notesInputModal.value = '';
+                showUIMessageModal('', 'info');
+            });
+        }
+
+        if (closeOvertimeModalBtn) {
+            closeOvertimeModalBtn.addEventListener('click', () => {
+                if (overtimeModal) overtimeModal.classList.add('hidden');
+            });
+        }
+
+        if (overtimeModal) {
+            overtimeModal.addEventListener('click', (event) => {
+                if (event.target === overtimeModal) {
+                    overtimeModal.classList.add('hidden');
+                }
+            });
+        }
+
+        if (overtimeForm && submitButtonModal) {
+            submitButtonModal.addEventListener('click', async (event) => {
+                event.preventDefault();
+                const dateValue = newDateInputModal ? newDateInputModal.value : '';
+                const typeValue = newTypeInputModal ? newTypeInputModal.value : '';
+                const hoursValue = hoursInputModal.value;
+                const notesValue = notesInputModal.value;
+
+                if (!dateValue || !typeValue || !hoursValue) {
+                    showUIMessageModal('Data, Tipo e Ore sono obbligatori.', 'error');
+                    return;
+                }
+                if (isNaN(parseFloat(hoursValue)) || parseFloat(hoursValue) <= 0) {
+                    showUIMessageModal('Le ore devono essere un numero positivo.', 'error');
+                    return;
+                }
+
+                const requestData = {
+                    user_id: parseInt(userId), // Assuming userId is available from the main script part
+                    date: dateValue,
+                    overtime_type: typeValue,
+                    hours: parseFloat(hoursValue),
+                    notes: notesValue
+                };
+
+                try {
+                    submitButtonModal.disabled = true;
+                    showUIMessageModal('Invio in corso...', 'info');
+                    const response = await fetch('/overtime_entries', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestData)
+                    });
+                    const responseData = await response.json();
+                    if (response.ok) {
+                        showUIMessageModal('Richiesta straordinario inviata con successo!', 'success');
+                        overtimeForm.reset();
+                        if(newDateInputModal) newDateInputModal.valueAsDate = new Date();
+                        if(newTypeInputModal) newTypeInputModal.value = '';
+                        // DO NOT CALL fetchAndDisplayPastOvertime() here
+                        setTimeout(() => {
+                           if (overtimeModal) overtimeModal.classList.add('hidden');
+                        }, 1500);
+                    } else {
+                        showUIMessageModal(responseData.message || 'Errore nell\'inviare la richiesta.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error submitting overtime request from modal:', error);
+                    showUIMessageModal('Errore di connessione o API.', 'error');
+                } finally {
+                    submitButtonModal.disabled = false;
+                }
+            });
+        }
     });
 </script>
 </body>
